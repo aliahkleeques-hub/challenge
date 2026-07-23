@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutri Master</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==================== BACKGROUND PARTICLES ==================== -->
+  <div id="particles-container"></div>
+
+  <!-- ==================== FLOATING FOOD ICONS ==================== -->
+  <div id="floating-foods">
+    <span class="food-icon">🍎</span>
+    <span class="food-icon">🥦</span>
+    <span class="food-icon">🍊</span>
+    <span class="food-icon">🥕</span>
+    <span class="food-icon">🍇</span>
+    <span class="food-icon">🥑</span>
+    <span class="food-icon">🍌</span>
+    <span class="food-icon">🥚</span>
+    <span class="food-icon">🐟</span>
+    <span class="food-icon">🥛</span>
+    <span class="food-icon">🌽</span>
+    <span class="food-icon">🍞</span>
+
+  </div>
+
+  <!-- ==================== MAIN CONTAINER ==================== -->
+  <div class="main-container">
+
+    <!-- ========== HOME SCREEN ========== -->
+    <section id="home-screen" class="screen active">
+      <div class="glass-card home-card">
+        <div class="robot-mascot" id="home-robot">🍅</div>
+        <h1 class="game-title">
+          <span class="title-line">Nutri Master</span>
+          <span class="title-line highlight">Challenge</span>
+        </h1>
+        <p class="subtitle">Think Smart. Eat Smart.</p>
+        <div class="home-buttons">
+          <button class="btn btn-primary" onclick="navigateTo('registration')">
+            <span class="btn-icon">▶</span> Start Game
+          </button>
+          <button class="btn btn-secondary" onclick="openModal('objective-modal')">
+            <span class="btn-icon">📋</span> Game Objective
+          </button>
+          <button class="btn btn-secondary" onclick="navigateTo('difficulty')">
+            <span class="btn-icon">⚡</span> Difficulty
+          </button>
+          <button class="btn btn-secondary" onclick="showLeaderboard()">
+            <span class="btn-icon">🏆</span> Leaderboard
+          </button>
+          <button class="btn btn-secondary" onclick="openModal('credits-modal')">
+            <span class="btn-icon">📜</span> Credits
+          </button>
+          <button class="btn btn-secondary" onclick="openModal('settings-modal')">
+            <span class="btn-icon">⚙️</span> Settings
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== REGISTRATION SCREEN ========== -->
+    <section id="registration-screen" class="screen">
+      <div class="glass-card">
+        <div class="robot-mascot" id="reg-robot">🍅</div>
+        <h2>Player Registration</h2>
+        <p class="section-desc">Enter your name to begin your nutrition journey!</p>
+        <div class="input-group">
+          <input type="text" id="player-name-input" placeholder="Your Name" maxlength="20" autocomplete="off">
+          <button class="btn btn-primary" onclick="registerPlayer()">
+            <span class="btn-icon">🚀</span> Enter the Challenge
+          </button>
+        </div>
+        <p class="hint-text" id="welcome-msg"></p>
+        <button class="btn btn-back" onclick="navigateTo('home')">← Back</button>
+      </div>
+    </section>
+
+    <!-- ========== DIFFICULTY SCREEN ========== -->
+    <section id="difficulty-screen" class="screen">
+      <div class="glass-card">
+        <div class="robot-mascot">🍅</div>
+        <h2>Select Difficulty</h2>
+        <p class="section-desc">Choose your challenge level</p>
+        <div class="difficulty-grid">
+          <button class="btn btn-difficulty easy" onclick="startGame('easy')">
+            <span class="diff-icon">🌱</span>
+            <span class="diff-name">Easy</span>
+            <span class="diff-desc">Basic Nutrition</span>
+          </button>
+          <button class="btn btn-difficulty medium" onclick="startGame('medium')">
+            <span class="diff-icon">🌿</span>
+            <span class="diff-name">Medium</span>
+            <span class="diff-desc">Intermediate</span>
+          </button>
+          <button class="btn btn-difficulty hard" onclick="startGame('hard')">
+            <span class="diff-icon">🌳</span>
+            <span class="diff-name">Hard</span>
+            <span class="diff-desc">Advanced</span>
+          </button>
+          <button class="btn btn-difficulty expert" onclick="startGame('expert')">
+            <span class="diff-icon">🏔️</span>
+            <span class="diff-name">Expert</span>
+            <span class="diff-desc">Master Level</span>
+          </button>
+        </div>
+        <button class="btn btn-back" onclick="navigateTo('home')">← Back</button>
+      </div>
+    </section>
+
+    <!-- ========== GAME SCREEN ========== -->
+    <section id="game-screen" class="screen">
+      <div class="game-container">
+        <!-- Top Bar -->
+        <div class="game-top-bar">
+          <button class="btn btn-icon-only" onclick="pauseGame()" title="Pause">⏸️</button>
+          <div class="lives-display" id="lives-display">❤️❤️❤️</div>
+          <div class="timer-display" id="timer-display">⏱ 20</div>
+          <div class="score-display">⭐ <span id="score-display">0</span></div>
+          <button class="btn btn-icon-only" onclick="openModal('settings-modal')" title="Settings">⚙️</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-bar"></div>
+          <span class="progress-text" id="progress-text">1/10</span>
+        </div>
+
+        <!-- AI Robot -->
+        <div class="ai-robot-container">
+          <div class="ai-robot" id="ai-robot">🍅</div>
+          <div class="ai-message" id="ai-message">
+            <span class="typing-text"></span>
+          </div>
+        </div>
+
+        <!-- Situation Card -->
+        <div class="situation-card glass-card" id="situation-card">
+          <p class="situation-text" id="situation-text"></p>
+        </div>
+
+        <!-- Answer Choices -->
+        <div class="choices-grid" id="choices-grid"></div>
+
+        <!-- Feedback Area -->
+        <div class="feedback-area" id="feedback-area" style="display:none;">
+          <div class="feedback-icon" id="feedback-icon"></div>
+          <p class="feedback-text" id="feedback-text"></p>
+          <p class="nutrition-fact" id="nutrition-fact"></p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="game-actions" id="game-actions">
+          <button class="btn btn-next" id="next-btn" style="display:none;" onclick="nextQuestion()">
+            Next → <span class="key-hint">[N]</span>
+          </button>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+          <span class="stat">✅ <span id="correct-count">0</span></span>
+          <span class="stat">❌ <span id="wrong-count">0</span></span>
+          <span class="stat">🎯 <span id="accuracy-display">0</span>%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== LEVEL COMPLETE SCREEN ========== -->
+    <section id="level-complete-screen" class="screen">
+      <div class="glass-card">
+        <div class="confetti-container" id="confetti-container"></div>
+        <div class="robot-mascot" id="complete-robot">🍅</div>
+        <h2>Level Complete! 🎉</h2>
+        <div class="stars-display" id="stars-display">⭐⭐⭐</div>
+        <div class="level-stats">
+          <p>Score: <strong id="final-score">0</strong></p>
+          <p>Accuracy: <strong id="final-accuracy">0%</strong></p>
+          <p>Performance: <strong id="performance-rating">Great!</strong></p>
+          <p>Badge Earned: <strong id="badge-earned">🏅</strong></p>
+        </div>
+        <div class="level-buttons">
+          <button class="btn btn-primary" onclick="nextLevel()">Next Level →</button>
+          <button class="btn btn-secondary" onclick="navigateTo('home')">🏠 Home</button>
+          <button class="btn btn-secondary" onclick="showLeaderboard()">🏆 Leaderboard</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PAUSE OVERLAY ========== -->
+    <div id="pause-overlay" class="overlay" style="display:none;">
+      <div class="glass-card">
+        <h2>⏸️ Game Paused</h2>
+        <button class="btn btn-primary" onclick="resumeGame()">▶ Resume</button>
+        <button class="btn btn-secondary" onclick="restartGame()">🔄 Restart</button>
+        <button class="btn btn-secondary" onclick="navigateTo('home')">🏠 Home</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Game Objective Modal -->
+  <div id="objective-modal" class="modal">
+    <div class="modal-content glass-card">
+      <span class="modal-close" onclick="closeModal('objective-modal')">&times;</span>
+      <h2>🎯 Game Objective</h2>
+      <div class="objective-list">
+        <p>🍅 Become a <strong> Nutrition challenge</strong></p>
+        <p>📊 Analyze different <strong>nutrition situations</strong></p>
+        <p>✅ Choose the <strong>best answer</strong></p>
+        <p>⭐ Earn <strong>points</strong></p>
+        <p>🔓 Unlock <strong>higher difficulties</strong></p>
+        <p>🏆 Become the <strong>Ultimate Nutrition Expert</strong>!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Credits Modal -->
+ <div id="credits-modal" class="modal">
+  <div class="modal-content glass-card">
+    <span class="modal-close" onclick="closeModal('credits-modal')">&times;</span>
+
+    <h2>📜 Credits</h2>
+
+    <div class="credits-content">
+
+      <h3>Nutrition Game Challenge</h3>
+
+      <p><strong>👩‍💻 Developed by:</strong> Aliah Kleeque Suazo</p>
+
+      <br>
+
+      <p><strong>🎯 Project Goal:</strong> Created to promote healthy eating through an interactive educational game.</p>
+
+      <br>
+
+     
+
+      <br>
+
+      <p><strong>🍎 Project Theme:</strong> "Healthy Eating: Key to a Stronger Future"</p>
+
+      <br>
+
+      <p><strong>💻 Built With:</strong> HTML, CSS & JavaScript.</p>
+
+      <br>
+
+      <p><strong>📚 Purpose:</strong> Developed for educational use and Nutrition Month activities.</p>
+
+      <br>
+
+      <p class="version-text">Version 1.0</p>
+
+    </div>
+  </div>
+</div>
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal">
+    <div class="modal-content glass-card">
+      <span class="modal-close" onclick="closeModal('settings-modal')">&times;</span>
+      <h2>⚙️ Settings</h2>
+      <div class="settings-list">
+        <div class="setting-row">
+          <span>🎵 Background Music</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="music-toggle" checked onchange="toggleMusic()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <span>🔊 Sound Effects</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sound-toggle" checked onchange="toggleSound()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <span>🌙 Dark Mode</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="darkmode-toggle" onchange="toggleDarkMode()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-row danger">
+          <button class="btn btn-danger" onclick="resetLeaderboard()">🗑️ Reset Leaderboard</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaderboard Modal -->
+  <div id="leaderboard-modal" class="modal">
+    <div class="modal-content glass-card leaderboard-modal-content">
+      <span class="modal-close" onclick="closeModal('leaderboard-modal')">&times;</span>
+      <h2>🏆 Leaderboard</h2>
+      <p class="section-desc">Top 10 Nutrition Experts</p>
+      <div class="leaderboard-table-wrapper">
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+              <th>Difficulty</th>
+              <th>Score</th>
+              <th>Accuracy</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body"></tbody>
+        </table>
+      </div>
+      <p id="leaderboard-empty" style="display:none;">No entries yet. Play a game!</p>
+    </div>
+  </div>
+
+  <!-- ==================== AUDIO ELEMENTS (generated via Web Audio) ==================== -->
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
